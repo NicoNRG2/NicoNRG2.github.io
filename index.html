@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicola Cappellaro - portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        .home {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card-img-top {
+          width: 100%;
+          height: 40vh;
+          object-fit: cover;
+        }
+        .social-icon {
+          width: 50px; 
+          height: 50px;
+          margin: 1rem;
+          font-size: 1.5rem; /* Dimensione dell'icona */
+          background-color: #343a40; /* Sfondo dell'icona */
+          color: #ffffff; /* Colore dell'icona */
+          text-decoration: none; /* Rimuove la sottolineatura */
+          transition: all 0.3s ease-in-out;
+        }
+        .social-icon:hover {
+          background-color: #0d6efd; /* Colore su hover */
+          color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Nicola Cappellaro</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Nicola Cappellaro</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#projects">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#contact">Contatti</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+    </nav>
+    <section id="home" class="home">
+      <div class="text-end">
+        <h2>Nicola Cappellaro</h2>
+        <p>Sono <span id="aggettivo"></span></p>
+      </div>
+    </section>
+    <section id="about" style="padding-top: 56px;">
+      <div class="container my-3">
+        <h2>Chi sono</h2>
+        <div class="row">
+          <div class="col-lg-4 mb-3">
+            <img src="images/profilo.jpeg" class="rounded mx-auto d-block" alt="profile" style="width: auto; height: 40vh;">
+          </div>
+          <div class="col-lg-8">
+            <p>Sono uno studente magistrale in <em>Information Engineering</em>, laureato in <em>Ingegneria Informatica, delle Comunicazioni ed Elettronica</em>.</p>
+            <p>Mi considero una persona intraprendente e orientata alla pratica, con una forte passione per la tecnologia e competenze tecniche trasversali, tra cui:</p>
+            <ul>
+                <li><strong>Programmazione e machine learning</strong>: esperienza nello sviluppo software e nell'integrazione di modelli di apprendimento automatico.</li>
+                <li><strong>Progettazione hardware e prototipazione</strong>: saldatura di componenti elettronici, stampa 3D e riparazione dispositivi.</li>
+                <li><strong>Progettazione di sistemi complessi</strong>: costruzione e sviluppo di droni e aerei radiocomandati, con attenzione all'integrazione hardware-software.</li>
+            </ul>
+            <p>Sono sempre alla ricerca di nuove sfide per applicare le mie competenze a progetti innovativi e ad alto impatto.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container my-3">
+        <h2>Competenze</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Windows & Linux</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 90%"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span>Programmazione (C/C++, Java, PHP, JavaScript, Python)</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 80%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Assembly (RISC-V, ARM, Intel-x86)</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 60%"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span>Database & SQL</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 85%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Computer Networks</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 75%"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span>Cyber Security</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <span>Web Development</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 75%"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <span>Problem Solving</span>
+            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: 90%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="projects" style="padding-top: 56px;">
+      <div class="container my-3">
+        <h2>Progetti</h2>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card" style="background-color: #343a40;">
+                    <img src="images/03_final_mocap.gif" class="card-img-top" alt="StationImage">
+                    <div class="card-body">
+                        <h5 class="card-title">Multiview 3D Pose Estimation</h5>
+                        <p class="card-text">Triangulation and MoCap Comparison</p>
+                        <a href="https://github.com/NicoNRG2/CV-Project-MoCap" class="btn btn-primary">Vedi su GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card" style="background-color: #343a40;">
+                    <img src="images/StationImage.jpg" class="card-img-top" alt="StationImage">
+                    <div class="card-body">
+                        <h5 class="card-title">Distributed Weather Station</h5>
+                        <p class="card-text">Distributed weather station built using ESP32</p>
+                        <a href="https://github.com/NicoNRG2/DistributedWeatherStation" class="btn btn-primary">Vedi su GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <img src="images/bakery4u.jpg" class="card-img-top" alt="bakery4u">
+                  <div class="card-body">
+                      <h5 class="card-title">Bakery4You</h5>
+                      <p class="card-text">Web app for bakery</p>
+                      <a href="https://github.com/NicoNRG2/sw-eng-project" class="btn btn-primary">Vedi su GitHub</a>
+                  </div>
+              </div>
+          </div>
+            <div class="col-md-4 mb-3">
+                <div class="card" style="background-color: #343a40;">
+                    <img src="images/esp-eye.jpg" class="card-img-top" alt="esp-eye">
+                    <div class="card-body">
+                        <h5 class="card-title">ESP32-Image-Classification</h5>
+                        <p class="card-text">Lightweight image classification model</p>
+                        <a href="https://github.com/NicoNRG2/ESP32-Image-Classification" class="btn btn-primary">Vedi su GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <img src="images/net.jpg" class="card-img-top" alt="StationImage">
+                  <div class="card-body">
+                      <h5 class="card-title">DigitalTwin SDN</h5>
+                      <p class="card-text">Digital Twin of a Software Defined Network</p>
+                      <a href="https://github.com/NicoNRG2/DigitalTwinSDN" class="btn btn-primary">Vedi su GitHub</a>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <div class="card-body">
+                      <h5 class="card-title">Computer Graphics</h5>
+                      <p class="card-text">To do</p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <div class="card-body">
+                      <h5 class="card-title">Low Power</h5>
+                      <p class="card-text">To do</p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <div class="card-body">
+                      <h5 class="card-title">Distributed systems</h5>
+                      <p class="card-text">To do</p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <div class="card-body">
+                      <h5 class="card-title">Machine unlearning</h5>
+                      <p class="card-text">To do</p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <div class="card" style="background-color: #343a40;">
+                  <div class="card-body">
+                      <h5 class="card-title">Multisensory</h5>
+                      <p class="card-text">To do</p>
+                  </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    <section id="contact" style="padding-top: 56px;">
+      <div class="container my-3">
+        <h2>Contatti</h2>
+        <a href="mailto:nicolacappellaro2@gmail.com">Scrivi una mail</a>
+        <div class="mb-3">
+          <p>I miei social</p>
+          <a href="https://www.linkedin.com/in/nicola-cappellaro" target="_blank" class="btn btn-link rounded-circle social-icon">
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a href="https://www.instagram.com/nicola_cappellaro" target="_blank" class="btn btn-link rounded-circle social-icon">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>    
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#aggettivo', {
+          strings: ['creativo', 'determinato', 'efficente', 'problem solver'],
+          typeSpeed: 100,
+          backSpeed: 100,
+          loop: true,
+          loopCount: Infinity,
+        });
+    </script>
+</body>
+</html>

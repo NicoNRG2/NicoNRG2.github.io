@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gratta e Vinci</title>
+  <style>
+    /* Layout centrato */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #ffe6ee;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Contenitore con dimensione fluida ma vincolata all’immagine */
+    #scratch-container {
+      position: relative;
+      touch-action: none;           /* evita lo scroll durante il gesto */
+      user-select: none;
+      -webkit-user-select: none;
+      width: min(90vw, 90vh);       /* dimensione responsiva */
+      max-width: 1024px;            /* non superare la risoluzione nativa */
+      aspect-ratio: 1 / 1;          /* mantiene l’aspetto quadrato */
+    }
+
+    /* L’immagine di sotto determina la dimensione del contenitore */
+    #underlying {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Il canvas copre esattamente l’immagine (stesse dimensioni CSS) */
+    #scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="scratch-container">
+    <img id="underlying" src="images/sotto.png" alt="Immagine da rivelare" />
+    <canvas id="scratch-canvas"></canvas>
+  </div>
+
+  <script>
+    const container   = document.getElementById('scratch-container');
+    const underlying  = document.getElementById('underlying');
+    const canvas      = document.getElementById('scratch-canvas');
+    const ctx         = canvas.getContext('2d', { willReadFrequently: false });
+
+    let isDrawing = false;
+    let dpr = window.devicePixelRatio || 1;
+
+    function fitCanvasToImage() {
+      // Prendi le dimensioni CSS effettive dell'immagine
+      const rect = underlying.getBoundingClientRect();
+
+      // Imposta le dimensioni CSS del canvas (già 100% da CSS)
+      // Imposta le dimensioni interne (bitmap) scalate per il DPR per nitidezza
+      canvas.width  = Math.round(rect.width  * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+
+      // Tutto quello che disegniamo lo facciamo in coordinate CSS pixel.
+      // Quindi applichiamo una trasformazione che converte da CSS px a device px.
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Ridisegna l’overlay alla nuova risoluzione
+      drawOverlay();
+    }
+
+    function drawOverlay() {
+      const overlay = new Image();
+      overlay.src = 'images/sopra.png';
+      overlay.onload = () => {
+        // Disegna l'overlay a misura del canvas in CSS px (grazie al transform)
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        ctx.imageSmoothingEnabled = true; // ok, ora non sgranerà su retina
+        ctx.drawImage(overlay, 0, 0, canvas.width / dpr, canvas.height / dpr);
+      };
+    }
+
+    function getCanvasCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = (e.touches ? e.touches[0].clientX : e.clientX);
+      const clientY = (e.touches ? e.touches[0].clientY : e.clientY);
+      // Coordinate in CSS px (grazie al setTransform possiamo usarle direttamente)
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      return { x, y };
+    }
+
+    function startScratch(e) {
+      e.preventDefault();
+      isDrawing = true;
+      scratch(e);
+    }
+
+    function endScratch() {
+      isDrawing = false;
+      ctx.beginPath();
+    }
+
+    function scratch(e) {
+      if (!isDrawing) return;
+      const { x, y } = getCanvasCoords(e);
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, 20, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Eventi: usa solo Pointer Events (coprono touch, penna, mouse)
+    canvas.addEventListener('pointerdown', startScratch, { passive: false });
+    window.addEventListener('pointerup', endScratch, { passive: true });
+    canvas.addEventListener('pointermove', (e) => {
+      if (isDrawing) e.preventDefault();
+      scratch(e);
+    }, { passive: false });
+
+    // Ricalcola su resize/orientation change o cambio DPR (zoom pagina)
+    function handleResize() {
+      const newDpr = window.devicePixelRatio || 1;
+      if (Math.abs(newDpr - dpr) > 0.001) dpr = newDpr;
+      fitCanvasToImage();
+    }
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
+    // Avvio: aspetta che l'immagine sotto sia caricata e dimensionata
+    if (underlying.complete) {
+      handleResize();
+    } else {
+      underlying.addEventListener('load', handleResize, { once: true });
+    }
+  </script>
+</body>
+</html>
