@@ -239,6 +239,7 @@
     box-shadow: 0 6px 16px rgba(255, 92, 138, 0.4);
     position: static;
     z-index: 50;
+    white-space: nowrap;
   }
   #btnNo.escaped {
     position: fixed;
@@ -382,21 +383,27 @@
 
   // ---------- bottone "No" che scappa ----------
   function moveNoButton() {
-    var rect = btnNo.getBoundingClientRect();
-    var w = rect.width || 110;
-    var h = rect.height || 50;
-
     // primo tap: agganciamo il bottone in "fixed" esattamente dove si trova ora,
     // così non salta né si sovrappone al bottone Sì
     if (!btnNo.classList.contains('escaped')) {
-      btnNo.style.left = rect.left + 'px';
-      btnNo.style.top = rect.top + 'px';
-      btnNo.style.width = w + 'px';
+      var startRect = btnNo.getBoundingClientRect();
+      btnNo.style.left = startRect.left + 'px';
+      btnNo.style.top = startRect.top + 'px';
       // forziamo il reflow prima di aggiungere la transizione,
       // altrimenti il primo spostamento non sarebbe animato
       void btnNo.offsetWidth;
       btnNo.classList.add('escaped');
     }
+
+    // aggiorniamo prima il testo, così la larghezza del bottone
+    // riflette già la nuova frase quando calcoliamo la posizione
+    noCount++;
+    var msg = noMessages[Math.min(noCount, noMessages.length - 1)];
+    btnNo.textContent = msg;
+
+    var rect = btnNo.getBoundingClientRect();
+    var w = rect.width || 110;
+    var h = rect.height || 50;
 
     var margin = 14;
     var safeTop = 10;    // spazio per lo status bar / notch
@@ -414,10 +421,6 @@
 
     btnNo.style.left = newX + 'px';
     btnNo.style.top = newY + 'px';
-
-    noCount++;
-    var msg = noMessages[Math.min(noCount, noMessages.length - 1)];
-    btnNo.textContent = msg;
 
     hint.style.opacity = '1';
   }
