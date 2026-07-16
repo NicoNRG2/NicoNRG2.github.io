@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Mi vuoi bene? 💕</title>
+<style>
+  :root{
+    --pink: #ff8fb1;
+    --pink-dark: #ff5c8a;
+    --purple: #b98ee8;
+    --bg1: #ffd6e8;
+    --bg2: #c9b6f7;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+
+  body {
+    font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(160deg, var(--bg1), var(--bg2));
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  #app {
+    width: 100%;
+    height: 100vh;
+    height: -webkit-fill-available;
+    height: 100dvh;
+    position: relative;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ---------- sfondo con cuoricini fluttuanti ---------- */
+  .bg-heart {
+    position: absolute;
+    bottom: -10%;
+    font-size: 22px;
+    opacity: 0.55;
+    animation: floatUp linear infinite;
+    pointer-events: none;
+    user-select: none;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+    100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ---------- gattino ---------- */
+  .cat-wrap {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    margin-bottom: 18px;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .cat {
+    position: absolute;
+    width: 150px;
+    height: 130px;
+    left: 10px;
+    top: 30px;
+    background: #ffb3c6;
+    border-radius: 50% 50% 45% 45%;
+    box-shadow: inset -8px -8px 0 rgba(255,255,255,0.15);
+  }
+
+  .ear {
+    position: absolute;
+    width: 0; height: 0;
+    top: -28px;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 45px solid #ffb3c6;
+  }
+  .ear.left { left: 5px; transform: rotate(-18deg); transform-origin: bottom center; }
+  .ear.right { right: 5px; transform: rotate(18deg); transform-origin: bottom center; }
+  .ear-inner {
+    position: absolute;
+    width: 0; height: 0;
+    top: -19px;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 28px solid #ff8fae;
+  }
+  .ear.left .ear-inner { left: -18px; }
+  .ear.right .ear-inner { right: -18px; }
+
+  .face-row { position: absolute; top: 55px; width: 100%; display: flex; justify-content: center; gap: 34px; }
+  .eye {
+    width: 14px; height: 18px;
+    background: #3a2a30;
+    border-radius: 50%;
+    animation: blink 4.5s infinite;
+  }
+  @keyframes blink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    95% { transform: scaleY(0.1); }
+  }
+
+  .blush {
+    position: absolute;
+    top: 78px;
+    width: 16px; height: 9px;
+    background: #ff9fb8;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+  .blush.left { left: 24px; }
+  .blush.right { right: 24px; }
+
+  .nose {
+    position: absolute;
+    top: 78px; left: 50%;
+    transform: translateX(-50%);
+    width: 10px; height: 8px;
+    background: #ff5c8a;
+    border-radius: 50%;
+  }
+
+  .mouth {
+    position: absolute;
+    top: 90px; left: 50%;
+    transform: translateX(-50%);
+    width: 26px; height: 12px;
+    border-bottom: 3px solid #7a4b56;
+    border-left: 3px solid #7a4b56;
+    border-radius: 0 0 0 20px;
+  }
+
+  .whisker {
+    position: absolute;
+    height: 2px;
+    background: #7a4b56;
+    top: 82px;
+    opacity: 0.7;
+  }
+  .whisker.l1 { left: -8px; width: 26px; transform: rotate(-6deg); }
+  .whisker.l2 { left: -10px; width: 26px; top: 90px; }
+  .whisker.r1 { right: -8px; width: 26px; transform: rotate(6deg); }
+  .whisker.r2 { right: -10px; width: 26px; top: 90px; }
+
+  .tail {
+    position: absolute;
+    width: 18px; height: 60px;
+    background: #ffb3c6;
+    border-radius: 40px;
+    right: -6px;
+    bottom: 8px;
+    transform-origin: bottom center;
+    animation: wag 1.8s ease-in-out infinite;
+  }
+  @keyframes wag {
+    0%, 100% { transform: rotate(10deg); }
+    50% { transform: rotate(35deg); }
+  }
+
+  .paw {
+    position: absolute;
+    width: 26px; height: 20px;
+    background: #ffc4d6;
+    border-radius: 50%;
+    bottom: -6px;
+  }
+  .paw.left { left: 20px; }
+  .paw.right { right: 20px; }
+
+  /* ---------- card centrale ---------- */
+  .card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 26px;
+    padding: 22px 26px 26px;
+    width: min(86vw, 340px);
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(150, 60, 100, 0.25);
+    position: relative;
+    z-index: 5;
+  }
+
+  .question {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #7a3a56;
+    margin: 0 0 20px;
+  }
+
+  .buttons-zone {
+    position: relative;
+    height: 56px;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 999px;
+    padding: 13px 30px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  #btnSi {
+    background: linear-gradient(135deg, #6de8a0, #34c98f);
+    color: #063a29;
+    box-shadow: 0 6px 16px rgba(52, 201, 143, 0.4);
+    position: relative;
+    z-index: 2;
+  }
+
+  #btnNo {
+    background: linear-gradient(135deg, var(--pink), var(--pink-dark));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(255, 92, 138, 0.4);
+    position: fixed;
+    z-index: 50;
+    transition: top 0.28s ease, left 0.28s ease;
+  }
+
+  .row {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- messaggio finale ---------- */
+  .final-msg {
+    display: none;
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #d1367a;
+    margin-top: 14px;
+    animation: pop 0.5s ease;
+  }
+  .final-msg.show { display: block; }
+  @keyframes pop {
+    0% { transform: scale(0.4); opacity: 0; }
+    70% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+  /* ---------- canvas coriandoli / fuochi ---------- */
+  #fx {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 40;
+  }
+
+  .no-hint {
+    font-size: 0.8rem;
+    color: #a2617f;
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <canvas id="fx"></canvas>
+
+  <div class="cat-wrap" id="cat">
+    <div class="ear left"><div class="ear-inner"></div></div>
+    <div class="ear right"><div class="ear-inner"></div></div>
+    <div class="tail"></div>
+    <div class="cat">
+      <div class="face-row">
+        <div class="eye"></div>
+        <div class="eye"></div>
+      </div>
+      <div class="blush left"></div>
+      <div class="blush right"></div>
+      <div class="nose"></div>
+      <div class="mouth"></div>
+      <div class="whisker l1"></div>
+      <div class="whisker l2"></div>
+      <div class="whisker r1"></div>
+      <div class="whisker r2"></div>
+      <div class="paw left"></div>
+      <div class="paw right"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="question" id="question">Mi vuoi bene?</p>
+    <div class="buttons-zone">
+      <div class="row">
+        <button id="btnSi">Sì 💖</button>
+        <button id="btnNo">No</button>
+      </div>
+    </div>
+    <p class="no-hint" id="hint">(prova pure a premere "No"... 😏)</p>
+    <p class="final-msg" id="finalMsg">Lo sapevo! Ti amo! 🥰🐱💕</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var btnNo = document.getElementById('btnNo');
+  var btnSi = document.getElementById('btnSi');
+  var finalMsg = document.getElementById('finalMsg');
+  var hint = document.getElementById('hint');
+  var question = document.getElementById('question');
+  var app = document.getElementById('app');
+  var canvas = document.getElementById('fx');
+  var ctx = canvas.getContext('2d');
+  var noCount = 0;
+  var answered = false;
+
+  var noMessages = [
+    "No",
+    "Sicura? 🥺",
+    "Dai... 😳",
+    "Riprova 😅",
+    "Nooo 🙈",
+    "Impossibile da cliccare!",
+    "Ahahah niente da fare",
+    "Sì è l'unica opzione 😌"
+  ];
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', function () {
+    setTimeout(resizeCanvas, 300);
+  });
+
+  // ---------- cuoricini di sfondo ----------
+  function spawnBgHearts() {
+    var hearts = ['💗','💕','💖','💓','💞'];
+    setInterval(function () {
+      var h = document.createElement('div');
+      h.className = 'bg-heart';
+      h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+      h.style.left = (Math.random() * 100) + 'vw';
+      h.style.fontSize = (14 + Math.random() * 16) + 'px';
+      var dur = 6 + Math.random() * 5;
+      h.style.animationDuration = dur + 's';
+      app.appendChild(h);
+      setTimeout(function () { h.remove(); }, dur * 1000 + 200);
+    }, 700);
+  }
+  spawnBgHearts();
+
+  // ---------- bottone "No" che scappa ----------
+  function moveNoButton() {
+    var btnRect = btnNo.getBoundingClientRect();
+    var w = btnRect.width || 110;
+    var h = btnRect.height || 50;
+
+    var margin = 14;
+    var maxX = window.innerWidth - w - margin;
+    var maxY = window.innerHeight - h - margin;
+
+    var newX = margin + Math.random() * Math.max(1, (maxX - margin));
+    var newY = margin + Math.random() * Math.max(1, (maxY - margin));
+
+    btnNo.style.left = newX + 'px';
+    btnNo.style.top = newY + 'px';
+
+    noCount++;
+    var msg = noMessages[Math.min(noCount, noMessages.length - 1)];
+    btnNo.textContent = msg;
+
+    hint.style.opacity = '1';
+  }
+
+  // attiva anche solo al passaggio del mouse (desktop) e al touchstart (mobile)
+  btnNo.addEventListener('click', function (e) {
+    e.preventDefault();
+    moveNoButton();
+  });
+  btnNo.addEventListener('touchstart', function (e) {
+    e.preventDefault();
+    moveNoButton();
+  }, { passive: false });
+  btnNo.addEventListener('mouseenter', function () {
+    if (window.matchMedia('(hover: hover)').matches) {
+      moveNoButton();
+    }
+  });
+
+  // ---------- risposta "Sì" ----------
+  btnSi.addEventListener('click', function () {
+    if (answered) return;
+    answered = true;
+    question.textContent = 'Yeah! 🥳';
+    finalMsg.classList.add('show');
+    btnNo.style.display = 'none';
+    btnSi.style.display = 'none';
+    hint.style.display = 'none';
+    launchConfetti();
+    launchFireworks();
+  });
+
+  // ================= CORIANDOLI =================
+  var confettiParticles = [];
+  var colors = ['#ff8fb1', '#ff5c8a', '#b98ee8', '#6de8a0', '#ffd166', '#5ec8ff'];
+
+  function launchConfetti() {
+    for (var i = 0; i < 140; i++) {
+      confettiParticles.push({
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * canvas.height * 0.5,
+        w: 6 + Math.random() * 6,
+        h: 8 + Math.random() * 10,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speedY: 2 + Math.random() * 3,
+        speedX: (Math.random() - 0.5) * 2,
+        rot: Math.random() * 360,
+        rotSpeed: (Math.random() - 0.5) * 10,
+        life: 0,
+        maxLife: 400 + Math.random() * 200
+      });
+    }
+  }
+
+  // ================= FUOCHI D'ARTIFICIO =================
+  var fireworkParticles = [];
+
+  function spawnFirework(x, y) {
+    var count = 40;
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    for (var i = 0; i < count; i++) {
+      var angle = (Math.PI * 2 * i) / count;
+      var speed = 2 + Math.random() * 3;
+      fireworkParticles.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color: color,
+        life: 0,
+        maxLife: 60 + Math.random() * 20,
+        size: 2 + Math.random() * 2
+      });
+    }
+  }
+
+  function launchFireworks() {
+    var bursts = 0;
+    var interval = setInterval(function () {
+      var x = canvas.width * (0.2 + Math.random() * 0.6);
+      var y = canvas.height * (0.15 + Math.random() * 0.35);
+      spawnFirework(x, y);
+      bursts++;
+      if (bursts >= 6) clearInterval(interval);
+    }, 450);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // coriandoli
+    for (var i = confettiParticles.length - 1; i >= 0; i--) {
+      var p = confettiParticles[i];
+      p.y += p.speedY;
+      p.x += p.speedX + Math.sin(p.life * 0.05);
+      p.rot += p.rotSpeed;
+      p.life++;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate((p.rot * Math.PI) / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+
+      if (p.life > p.maxLife || p.y > canvas.height + 30) {
+        confettiParticles.splice(i, 1);
+      }
+    }
+
+    // fuochi d'artificio
+    for (var j = fireworkParticles.length - 1; j >= 0; j--) {
+      var f = fireworkParticles[j];
+      f.x += f.vx;
+      f.y += f.vy;
+      f.vy += 0.04; // gravità leggera
+      f.life++;
+
+      var alpha = Math.max(0, 1 - f.life / f.maxLife);
+      ctx.beginPath();
+      ctx.fillStyle = f.color;
+      ctx.globalAlpha = alpha;
+      ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+
+      if (f.life > f.maxLife) {
+        fireworkParticles.splice(j, 1);
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+})();
+</script>
+</body>
+</html>
