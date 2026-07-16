@@ -191,9 +191,7 @@
 
   /* ---------- card centrale ---------- */
   .card {
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255,255,255,0.94);
     border-radius: 26px;
     padding: 22px 26px 26px;
     width: min(86vw, 340px);
@@ -239,8 +237,12 @@
     background: linear-gradient(135deg, var(--pink), var(--pink-dark));
     color: #fff;
     box-shadow: 0 6px 16px rgba(255, 92, 138, 0.4);
-    position: fixed;
+    position: static;
     z-index: 50;
+  }
+  #btnNo.escaped {
+    position: fixed;
+    margin: 0;
     transition: top 0.28s ease, left 0.28s ease;
   }
 
@@ -380,16 +382,35 @@
 
   // ---------- bottone "No" che scappa ----------
   function moveNoButton() {
-    var btnRect = btnNo.getBoundingClientRect();
-    var w = btnRect.width || 110;
-    var h = btnRect.height || 50;
+    var rect = btnNo.getBoundingClientRect();
+    var w = rect.width || 110;
+    var h = rect.height || 50;
+
+    // primo tap: agganciamo il bottone in "fixed" esattamente dove si trova ora,
+    // così non salta né si sovrappone al bottone Sì
+    if (!btnNo.classList.contains('escaped')) {
+      btnNo.style.left = rect.left + 'px';
+      btnNo.style.top = rect.top + 'px';
+      btnNo.style.width = w + 'px';
+      // forziamo il reflow prima di aggiungere la transizione,
+      // altrimenti il primo spostamento non sarebbe animato
+      void btnNo.offsetWidth;
+      btnNo.classList.add('escaped');
+    }
 
     var margin = 14;
-    var maxX = window.innerWidth - w - margin;
-    var maxY = window.innerHeight - h - margin;
+    var safeTop = 10;    // spazio per lo status bar / notch
+    var safeBottom = 24; // spazio per la home indicator dell'iPhone
+
+    var maxX = Math.max(margin, window.innerWidth - w - margin);
+    var maxY = Math.max(safeTop, window.innerHeight - h - safeBottom);
 
     var newX = margin + Math.random() * Math.max(1, (maxX - margin));
-    var newY = margin + Math.random() * Math.max(1, (maxY - margin));
+    var newY = safeTop + Math.random() * Math.max(1, (maxY - safeTop));
+
+    // clamp finale di sicurezza
+    newX = Math.min(Math.max(newX, margin), window.innerWidth - w - margin);
+    newY = Math.min(Math.max(newY, safeTop), window.innerHeight - h - safeBottom);
 
     btnNo.style.left = newX + 'px';
     btnNo.style.top = newY + 'px';
